@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 import cwiid
 import pygame
@@ -39,15 +39,15 @@ class FindWiimote(threading.Thread):
   def run(self):
     FindWiimote.wiimote = None
     try:
-      print "looking for wiimote"
+      print("looking for wiimote")
       FindWiimote.wiimote = cwiid.Wiimote()
-      print "wiimote found"
+      print("wiimote found")
       FindWiimote.wiimote.rpt_mode = cwiid.RPT_BALANCE | cwiid.RPT_BTN
       FindWiimote.wiimote.led = cwiid.LED1_ON
       balance_calibration = FindWiimote.wiimote.get_balance_cal()
       FindWiimote.named_calibration = { 'right_top': balance_calibration[0], 'right_bottom': balance_calibration[1], 'left_top': balance_calibration[2], 'left_bottom': balance_calibration[3] }
     except RuntimeError as e:
-      print "Unable to find wiimote"
+      print("Unable to find wiimote")
       FindWiimote.wiimote = None
     FindWiimote.attempt_count += 1
 
@@ -108,17 +108,17 @@ while not exit:
     pygame_writeline("Looking for wiimote... attempt %i" % FindWiimote.attempt_count)
     if not findThread:
       findThread = FindWiimote()
-      print "starting search thread"
+      print("starting search thread")
       findThread.start()
     elif not findThread.isAlive():
-      print "Killing finished thread"
+      print("Killing finished thread")
       findThread = None
-      print "Wiimote status %s" % FindWiimote.wiimote
+      print("Wiimote status %s" % FindWiimote.wiimote)
 
   pygame.display.flip()
 
 
-print "shutting down"
+print("shutting down")
 pygame.quit()
 #if wiimote:
 #  wiimote.disable( cwiid.FLAG_MESG_IFC )
